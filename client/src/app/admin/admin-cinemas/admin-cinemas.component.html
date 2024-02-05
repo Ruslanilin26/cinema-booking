@@ -1,0 +1,52 @@
+<div class="wrapper">
+  <div class="cinemas">
+    <h1>Кинотеатры</h1>
+
+    <img src="./assets/images/svg/add.svg" alt="" (click)="openModal()" />
+    <table>
+      <tr>
+        <th>#</th>
+        <th>Название</th>
+        <th>Адрес</th>
+        <th>Действия</th>
+      </tr>
+      <tr
+        class="cinema-info"
+        *ngFor="let cinema of cinemas; let indexOfElement = index"
+        (click)="selectStr(cinema.cinemaId)"
+        [ngClass]="{ selected: this.selectedString === cinema.cinemaId }"
+      >
+        <td>{{ indexOfElement + 1 }}</td>
+        <td>{{ cinema.cinemaName }}</td>
+        <td>{{ cinema.cinemaAddress }}</td>
+        <td>
+          <div class="buttons">
+            <img
+              src="./assets/images/svg/edit.svg"
+              alt=""
+              (click)="openModal(cinema)"
+            />
+            <img
+              src="./assets/images/svg/delete.svg"
+              alt=""
+              (click)="deleteCinema(cinema.cinemaId)"
+            />
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="halls">
+    <app-halls></app-halls>
+  </div>
+</div>
+
+<ng-container *ngIf="isModalOpen">
+  <app-cinema-modal
+    [oldCinema]="oldCinema"
+    [isEditing]="isEditing"
+    (closeEvent)="closeModal($event)"
+    (saveEvent)="addCinema($event)"
+    (editEvent)="editCinema($event)"
+  ></app-cinema-modal>
+</ng-container>
